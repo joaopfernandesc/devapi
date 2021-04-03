@@ -2,11 +2,11 @@ import { injectable, inject } from 'tsyringe';
 
 import IConnectorsRepository from '../repositories/IConnectorsRepository';
 
-import IConnector from '../infra/mongoose/interfaces/IConnector';
+import Connector from '../infra/typeorm/entities/Connector';
 import ICreateConnectorDTO from '../dtos/ICreateConnectorDTO';
 
 @injectable()
-export default class CreateUserService {
+export default class CreateConnectorService {
   constructor(
     @inject('ConnectorsRepository')
     private connectorsRepository: IConnectorsRepository,
@@ -19,15 +19,20 @@ export default class CreateUserService {
     baseUrl,
     logoUrl,
     category,
+    description,
     status,
-  }: ICreateConnectorDTO): Promise<IConnector> {
+  }: ICreateConnectorDTO): Promise<Connector> {
     const connector = await this.connectorsRepository.create({
       name,
-      email,
-      password: hashedPassword,
+      type,
+      privacy,
+      baseUrl,
+      logoUrl,
+      category,
+      description,
+      status,
     });
-
-    await this.cacheProvider.invalidate('providers-list');
+    console.log(connector);
 
     return connector;
   }

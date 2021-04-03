@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
+import { classToClass } from 'class-transformer';
 
 import CreateConnectorService from '@modules/connectors/services/CreateConnectorService';
 
@@ -9,6 +10,6 @@ export default class ConnectorsController {
 
     const connector = await createConnector.execute(request.body);
 
-    return response.json({ connector });
+    return response.json(classToClass(connector));
   }
 }

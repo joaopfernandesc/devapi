@@ -1,12 +1,10 @@
-import IConnector from '../infra/mongoose/interfaces/IConnector';
-
 export default interface ICreateConnectorDTO {
-  name: IConnector['name'];
-  type: IConnector['type'];
-  privacy: IConnector['privacy'];
-  baseUrl: IConnector['baseUrl'];
-  logoUrl: IConnector['logoUrl'];
-  category: IConnector['category'];
-  description: IConnector['description'];
-  status: IConnector['status'];
+  name: string;
+  type: 'REST' | 'BD' | 'SOAP';
+  privacy: 'PUBLIC' | 'PRIVATE';
+  baseUrl: string;
+  logoUrl: string;
+  category: string;
+  description: string;
+  status: string;
 }

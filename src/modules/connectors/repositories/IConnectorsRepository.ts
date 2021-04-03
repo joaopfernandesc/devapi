@@ -1,10 +1,11 @@
 import ICreateConnectorDTO from '@modules/connectors/dtos/ICreateConnectorDTO';
 import IFindAllConnectorsDTO from '@modules/connectors/dtos/IFindAllConnectorsDTO';
-import IConnector from '@modules/connectors/infra/mongoose/interfaces/IConnector';
+import Connector from '../infra/typeorm/entities/Connector';
 
 export default interface IConnectorsRepository {
-  create(data: ICreateConnectorDTO): Promise<IConnector>;
-  save(connector: IConnector): Promise<IConnector | undefined>;
-  delete(connector: IConnector): Promise<IConnector | undefined>;
-  findAllConnectors(data?: IFindAllConnectorsDTO): Promise<IConnector[]>;
+  create(data: ICreateConnectorDTO): Promise<Connector>;
+  save(connector: Connector): Promise<Connector | undefined>;
+  update(connector: Connector): Promise<Connector | undefined>;
+  delete(connector: Connector): Promise<Connector | undefined>;
+  findAllConnectors(filters?: IFindAllConnectorsDTO): Promise<Connector[]>;
 }
