@@ -6,7 +6,6 @@ export default interface IConnectorsRepository {
   findById(id: string): Promise<Connector | undefined>;
   create(data: ICreateConnectorDTO): Promise<Connector>;
   save(connector: Connector): Promise<Connector | undefined>;
-  update(connector: Connector): Promise<Connector | undefined>;
-  delete(connector: Connector): Promise<Connector | undefined>;
+  delete(connectorID: string): Promise<void>;
   findAllConnectors(filters?: IFindAllConnectorsDTO): Promise<Connector[]>;
 }

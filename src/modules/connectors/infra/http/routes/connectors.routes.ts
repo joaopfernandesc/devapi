@@ -67,4 +67,6 @@ connectorsRouter.get(
   connectorsController.index,
 );
 
+connectorsRouter.delete('/:connectorID', connectorsController.destroy);
+
 export default connectorsRouter;
