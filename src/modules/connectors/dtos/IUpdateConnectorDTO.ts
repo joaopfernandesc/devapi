@@ -1,9 +1,12 @@
-import { Privacy, Type } from '../infra/typeorm/entities/Connector';
+import {
+  ConnectorPrivacy,
+  ConnectorType,
+} from '../infra/typeorm/entities/Connector';
 
 export default interface IUpdateConnectorDTO {
   name: string;
-  type: Type;
-  privacy: Privacy;
+  type: ConnectorType;
+  privacy: ConnectorPrivacy;
   baseUrl: string;
   logoUrl: string;
   category: string;
