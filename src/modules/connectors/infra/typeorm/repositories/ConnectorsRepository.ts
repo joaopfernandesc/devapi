@@ -1,5 +1,5 @@
-import { getRepository, Repository, ILike, Not } from 'typeorm';
-import * as _ from 'lodash';
+import { getRepository, Repository, ILike } from 'typeorm';
+import _ from 'lodash';
 
 import IConnectorsRepository from '@modules/connectors/repositories/IConnectorsRepository';
 
@@ -54,6 +54,10 @@ class ConnectorsRepository implements IConnectorsRepository {
 
   public async save(connector: Connector): Promise<Connector> {
     return this.ormRepository.save(connector);
+  }
+
+  public async bulkCreate(data: ICreateConnectorDTO[]): Promise<Connector[]> {
+    return this.ormRepository.save(data);
   }
 }
 

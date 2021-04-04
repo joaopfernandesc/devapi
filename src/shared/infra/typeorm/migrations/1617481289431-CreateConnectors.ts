@@ -21,7 +21,7 @@ export default class CreateConnectors1617481289431
           {
             name: 'type',
             type: 'enum',
-            enum: ['REST', 'SOAP', 'DB'],
+            enum: ['REST', 'SOAP', 'BD'],
           },
           {
             name: 'privacy',

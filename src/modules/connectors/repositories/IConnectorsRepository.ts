@@ -8,4 +8,5 @@ export default interface IConnectorsRepository {
   save(connector: Connector): Promise<Connector | undefined>;
   delete(connectorID: string): Promise<void>;
   findAllConnectors(filters?: IFindAllConnectorsDTO): Promise<Connector[]>;
+  bulkCreate(data: ICreateConnectorDTO[]): Promise<Connector[]>;
 }

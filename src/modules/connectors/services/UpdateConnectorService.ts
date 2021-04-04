@@ -27,7 +27,7 @@ export default class UpdateConnectorService {
     category,
     description,
     status,
-  }: IRequest): Promise<Connector> {
+  }: IRequest): Promise<Connector | undefined> {
     const connector = await this.connectorsRepository.findById(connectorID);
 
     if (!connector) {
