@@ -1,0 +1,302 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Technical challenge for DevApi",
+    "version": "1.0.0",
+    "title": "DevApi Connectors",
+    "contact": {
+      "email": "joaopfernandesc@gmail.com"
+    }
+  },
+  "security": [{"bearerAuth": []}],
+  "host": "localhost:3333",
+  "paths": {
+    "/sessions": {
+      "post": {
+        "security": [],
+        "tags": [
+          "Authenticate"
+        ],
+        "summary": "Creates a valid JWT token",
+        "description": "",
+        "operationId": "authenticate",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Authenticated",
+            "schema": {
+              "$ref": "#/definitions/Token"
+            }
+          }
+        }
+      }
+    },
+    "/connectors": {
+      "post": {
+        "tags": [
+          "Connector"
+        ],
+        "summary": "Add a new connector",
+        "description": "",
+        "operationId": "getConnectors",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Connector object that needs to be added",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Connector"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Connector"
+            }
+          },
+          "400": {
+            "description": "Invalid body"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Connector"
+        ],
+        "summary": "List connectors",
+        "description": "List connectors with optional filters",
+        "operationId": "addConnector",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/NameQueryParameter"
+          },
+          {
+            "$ref": "#/parameters/CategoryQueryParameter"
+          },
+          {
+            "$ref": "#/parameters/TypeQueryParameter"
+          },
+          {
+            "$ref": "#/parameters/PrivacyQueryParameter"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Connector"
+            }
+          },
+          "400": {
+            "description": "Invalid body"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/connectors/{connectorId}": {
+      "put": {
+        "tags": [
+          "Connector"
+        ],
+        "summary": "Update an existing connector",
+        "description": "",
+        "operationId": "updateConnector",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "connectorId",
+            "in": "path",
+            "description": "ID of connector to update",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Connector object that needs to be updated",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Connector"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Connector"
+            }
+          },
+          "400": {
+            "description": "Invalid parameter supplied"
+          },
+          "404": {
+            "description": "Connector not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Connector"
+        ],
+        "summary": "Deletes a connector",
+        "description": "",
+        "operationId": "deleteConnector",
+        "parameters": [
+          {
+            "name": "connectorId",
+            "in": "path",
+            "description": "ID of connector to be deleted",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Connector not found"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "Token": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "Connector": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "BD",
+            "REST",
+            "SOAP"
+          ]
+        },
+        "privacy": {
+          "type": "string",
+          "enum": [
+            "PUBLIC",
+            "PRIVATE"
+          ]
+        },
+        "baseUrl": {
+          "type": "string",
+          "example": "http://www.google.com",
+          "format": "uri"
+        },
+        "logoUrl": {
+          "type": "string",
+          "example": "http://www.google.com",
+          "format": "uri"
+        },
+        "category": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "NameQueryParameter": {
+      "in": "query",
+      "name": "name",
+      "description": "Connector name or part of it - case insensitive",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "CategoryQueryParameter": {
+      "in": "query",
+      "name": "category",
+      "description": "Category or part of it - case insensitive.",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "TypeQueryParameter": {
+      "in": "query",
+      "name": "type",
+      "description": "Connector type",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "BD",
+          "REST",
+          "SOAP"
+        ]
+      }
+    },
+    "PrivacyQueryParameter": {
+      "in": "query",
+      "name": "privacy",
+      "description": "Connector privacy",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "PUBLIC",
+          "PRIVATE"
+        ]
+      }
+    }
+  }
+}
