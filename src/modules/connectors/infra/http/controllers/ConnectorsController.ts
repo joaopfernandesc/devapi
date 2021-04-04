@@ -12,7 +12,7 @@ export default class ConnectorsController {
     const createConnector = container.resolve(CreateConnectorService);
 
     const connector = await createConnector.execute(request.body);
-    return response.json(classToClass(connector));
+    return response.status(201).json(classToClass(connector));
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
@@ -37,10 +37,10 @@ export default class ConnectorsController {
   ): Promise<Response> {
     const destroyConnector = container.resolve(DestroyConnectorService);
     const { connectorID } = request.params;
-    const connector = await destroyConnector.execute({
+    await destroyConnector.execute({
       connectorID,
       ...request.body,
     });
-    return response.json(classToClass(connector));
+    return response.status(204).json();
   }
 }

@@ -32,7 +32,6 @@ export default class CreateConnectorService {
       description,
       status,
     });
-    console.log(connector);
 
     return connector;
   }
