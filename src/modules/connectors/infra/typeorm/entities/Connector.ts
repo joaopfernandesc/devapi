@@ -9,6 +9,17 @@ import {
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 
+export enum Privacy {
+  PRIVATE,
+  PUBLIC,
+}
+
+export enum Type {
+  REST,
+  SOAP,
+  BD,
+}
+
 @Entity('connectors')
 class Connector {
   @PrimaryGeneratedColumn('uuid')
@@ -18,13 +29,17 @@ class Connector {
   @Index()
   name: string;
 
-  @Column()
+  @Column({ type: 'enum', enum: Type })
   @Index()
-  type: string;
+  type: Type;
 
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: Privacy,
+    default: Privacy.PRIVATE,
+  })
   @Index()
-  privacy: string;
+  privacy: Privacy;
 
   @Column()
   baseUrl: string;
