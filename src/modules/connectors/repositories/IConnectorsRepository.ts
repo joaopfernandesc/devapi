@@ -3,6 +3,7 @@ import IFindAllConnectorsDTO from '@modules/connectors/dtos/IFindAllConnectorsDT
 import Connector from '../infra/typeorm/entities/Connector';
 
 export default interface IConnectorsRepository {
+  findById(id: string): Promise<Connector | undefined>;
   create(data: ICreateConnectorDTO): Promise<Connector>;
   save(connector: Connector): Promise<Connector | undefined>;
   update(connector: Connector): Promise<Connector | undefined>;

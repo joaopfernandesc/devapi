@@ -13,6 +13,11 @@ class ConnectorsRepository implements IConnectorsRepository {
     this.ormRepository = getRepository(Connector);
   }
 
+  public async findById(id: string): Promise<Connector | undefined> {
+    const connector = await this.ormRepository.findOne(id);
+    return connector;
+  }
+
   public async create(connectorData: ICreateConnectorDTO): Promise<Connector> {
     const connector = this.ormRepository.create(connectorData);
 

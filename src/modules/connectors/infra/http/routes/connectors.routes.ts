@@ -25,4 +25,21 @@ connectorsRouter.post(
   connectorsController.create,
 );
 
+connectorsRouter.put(
+  '/:connectorID',
+  celebrate({
+    [Segments.BODY]: {
+      name: Joi.string().required(),
+      type: Joi.string().valid('REST', 'SOAP', 'BD').required(),
+      privacy: Joi.string().valid('PUBLIC', 'PRIVATE').required(),
+      baseUrl: Joi.string().uri().required(),
+      logoUrl: Joi.string().uri().required(),
+      category: Joi.string().required(),
+      description: Joi.string().required(),
+      status: Joi.string().required(),
+    },
+  }),
+  connectorsController.update,
+);
+
 export default connectorsRouter;
