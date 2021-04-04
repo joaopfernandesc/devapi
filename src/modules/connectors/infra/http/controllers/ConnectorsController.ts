@@ -4,6 +4,7 @@ import { classToClass } from 'class-transformer';
 
 import CreateConnectorService from '@modules/connectors/services/CreateConnectorService';
 import UpdateConnectorService from '@modules/connectors/services/UpdateConnectorService';
+import ListConnectorsService from '@modules/connectors/services/ListConnectorsService';
 
 export default class ConnectorsController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -20,6 +21,12 @@ export default class ConnectorsController {
       connectorID,
       ...request.body,
     });
+    return response.json(classToClass(connector));
+  }
+
+  public async index(request: Request, response: Response): Promise<Response> {
+    const indexConnectors = container.resolve(ListConnectorsService);
+    const connector = await indexConnectors.execute(request.query);
     return response.json(classToClass(connector));
   }
 }

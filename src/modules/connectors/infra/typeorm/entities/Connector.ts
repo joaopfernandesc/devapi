@@ -9,16 +9,11 @@ import {
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 
-export enum Privacy {
-  PRIVATE,
-  PUBLIC,
-}
+export type ConnectorPrivacy = 'PRIVATE' | 'PUBLIC';
+export type ConnectorType = 'REST' | 'SOAP' | 'BD';
 
-export enum Type {
-  REST,
-  SOAP,
-  BD,
-}
+export const connectorTypes: ConnectorType[] = ['REST', 'SOAP', 'BD'];
+export const connectorPrivacy: ConnectorPrivacy[] = ['PUBLIC', 'PRIVATE'];
 
 @Entity('connectors')
 class Connector {
@@ -29,17 +24,13 @@ class Connector {
   @Index()
   name: string;
 
-  @Column({ type: 'enum', enum: Type })
+  @Column({ type: 'enum', enum: connectorTypes })
   @Index()
-  type: Type;
+  type: ConnectorType;
 
-  @Column({
-    type: 'enum',
-    enum: Privacy,
-    default: Privacy.PRIVATE,
-  })
+  @Column({ type: 'enum', enum: connectorPrivacy })
   @Index()
-  privacy: Privacy;
+  privacy: ConnectorPrivacy;
 
   @Column()
   baseUrl: string;

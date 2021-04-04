@@ -1,4 +1,5 @@
-import { getRepository, Repository, Not } from 'typeorm';
+import { getRepository, Repository, ILike } from 'typeorm';
+import * as _ from 'lodash';
 
 import IConnectorsRepository from '@modules/connectors/repositories/IConnectorsRepository';
 
@@ -36,20 +37,22 @@ class ConnectorsRepository implements IConnectorsRepository {
 
   public async findAllConnectors(
     params: IFindAllConnectorsDTO,
+    deletedAt = null,
   ): Promise<Connector[]> {
-    let users: Connector[];
+    const iLikeFilters = ['category', 'name'];
 
-    if (params) {
-      users = await this.ormRepository.find({
-        where: {
-          id: Not(params),
-        },
-      });
-    } else {
-      users = await this.ormRepository.find();
-    }
+    const filters = Object.entries(params).reduce((acc, [key, value]) => {
+      const filterValue = iLikeFilters.includes(key)
+        ? ILike(`%${value}%`)
+        : value;
 
-    return users;
+      _.set(acc, key, filterValue);
+      return acc;
+    }, {});
+    Object.assign(filters, { deletedAt });
+
+    const connectors = await this.ormRepository.find({ where: filters });
+    return connectors;
   }
 
   public async save(connector: Connector): Promise<Connector> {
